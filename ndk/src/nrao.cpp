@@ -133,45 +133,12 @@ void cmd_services_tweak() {
   xlog("date", "Tweaked `cmd` services.");
 }
 
-// Tweak to improve main DEX files.
-void main_dex_tweak() {
-  // Build command to execute.
-  string cmd = "cmd package compile -m speed-profile -a";
-
-  // Use exec_shell() function to execute shell command.
-  exec_shell(cmd, false);   
-
-  // Print tweak completion message.  
-  xlog("date", "Applied main DEX tweak.");  
-}
-
-// Tweak to improve secondary DEX files.
-void secondary_dex_tweak() {
-  // List of shell commands to execute.
-  vector<string> cmds = {
-    "for i in $(pm list packages | cut -d: -f2); do pm compile -m speed-profile --secondary-dex $i; done", 
-    "pm reconcile-secondary-dex-files -a", 
-    "pm compile --compile-layouts -a"
-  };
-
-  // Iterate through the list of commands.
-  for (const string& cmd : cmds) {
-    // Use exec_shell() function to execute shell command.
-    exec_shell(cmd, false);  
-  }
-
-  // Print tweak completion message.
-  xlog("date", "Applied secondary DEX tweak.");  
-}
-
 void apply_all_tweaks() {
   xlog("info", "Started NRAO Tweaks at " + print_date("full"));
   xlog("", "");
   
   mem_preload_tweak();
   cmd_services_tweak();
-  main_dex_tweak();  
-  secondary_dex_tweak();
 
   xlog("", "");
   xlog("info", "Completed NRAO Tweaks at " + print_date("full"));
